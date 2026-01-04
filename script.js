@@ -4,8 +4,10 @@ const updateView = () => {
 
     const tasksList = document.getElementById("tasksList");
 
-    // Clear existing tasks efficiently
-    tasksList.innerHTML = "";
+    // Clear existing tasks efficiently without innerHTML
+    while (tasksList.firstChild) {
+        tasksList.removeChild(tasksList.firstChild);
+    }
 
     taskArr.forEach((element, index) => {
 
@@ -49,6 +51,10 @@ const updateView = () => {
     });
 }
 
+const isValidTaskIndex = (index) => {
+    return index >= 0 && index < taskArr.length;
+}
+
 const addTask = (isDone = false) => {
     const taskInput = document.getElementById("task-input");
     const task = taskInput.value.trim();
@@ -75,7 +81,7 @@ const addTask = (isDone = false) => {
 }
 
 const editTask = (taskIndex) => {
-    if (taskIndex < 0 || taskIndex >= taskArr.length) return;
+    if (!isValidTaskIndex(taskIndex)) return;
     
     const taskText = taskArr[taskIndex].task;
     taskArr.splice(taskIndex, 1);
@@ -94,7 +100,7 @@ const editTask = (taskIndex) => {
 }
 
 const deleteTask = (taskIndex) => {
-    if (taskIndex < 0 || taskIndex >= taskArr.length) return;
+    if (!isValidTaskIndex(taskIndex)) return;
     
     taskArr.splice(taskIndex, 1);
     
@@ -108,7 +114,7 @@ const deleteTask = (taskIndex) => {
 }
 
 const doTask = (taskIndex) => {
-    if (taskIndex < 0 || taskIndex >= taskArr.length) return;
+    if (!isValidTaskIndex(taskIndex)) return;
     
     taskArr[taskIndex].isDone = !taskArr[taskIndex].isDone;
     
@@ -153,17 +159,15 @@ document.getElementById("task-input").addEventListener("keypress", (event) => {
 });
 
 document.getElementById("task-clear-btn").addEventListener("click", () => {
-    if (taskArr.length > 0 && !confirm("Are you sure you want to clear all tasks?")) {
-        return;
+    if (taskArr.length === 0 || confirm("Are you sure you want to clear all tasks?")) {
+        try {
+            localStorage.removeItem("savedTasks");
+        } catch (error) {
+            console.error("Failed to clear tasks:", error);
+        }
+        
+        taskArr = [];
+        updateView();
     }
-    
-    try {
-        localStorage.removeItem("savedTasks");
-    } catch (error) {
-        console.error("Failed to clear tasks:", error);
-    }
-    
-    taskArr = [];
-    updateView();
 });
 
