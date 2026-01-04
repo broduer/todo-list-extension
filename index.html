@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my todo list</title>
+    <meta name="description" content="A simple and secure TODO list extension">
+    <title>My TODO List</title>
     <link rel="stylesheet" href="index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +14,13 @@
 <body>
     <div class="heading">My TODO List</div>
     <div class="input-div">
-        <input type="text" id="task-input" class="task-input" placeholder="Enter a task to fulfill"/>
-        <button id="task-submit-btn" class="task-btn task-btn-submit">Add</button>
+        <input type="text" id="task-input" class="task-input" placeholder="Enter a task to fulfill" maxlength="500" autocomplete="off" aria-label="Task input"/>
+        <button id="task-submit-btn" class="task-btn task-btn-submit" aria-label="Add task">Add</button>
     </div>
-    <div class="tasks-list-div" id="tasksList"></div>
+    <div class="tasks-list-div" id="tasksList" role="list" aria-label="Task list"></div>
     <div class="task-clear-div">
-        <button id="task-clear-btn" class="task-btn task-btn-clear">Clear All</button>
+        <button id="task-clear-btn" class="task-btn task-btn-clear" aria-label="Clear all tasks">Clear All</button>
     </div>
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 </html>
